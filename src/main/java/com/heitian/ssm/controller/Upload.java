@@ -24,7 +24,7 @@ public class Upload {
     private AliyunUtils aliyunUtils = new AliyunUtils();
 
 
-    //上传头像le
+    //上传头像
     @RequestMapping("/to_upload")
     @ResponseBody
     public JSONObject toupload(MultipartFile file, HttpServletRequest request) throws Exception {
