@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heitian.ssm.dao.TokenDao">
+
+
+    <resultMap id="TokenBaseMap" type="com.heitian.ssm.model.Token">
+        <id column="tokenId" property="tokenId" jdbcType="BIGINT"/>
+        <result column="token" property="token"/>
+    </resultMap>
+
+    <select id="getTokenByid" resultMap="TokenBaseMap">
+        SELECT * FROM t_token
+        WHERE tokenId=#{tokenId}
+    </select>
+
+    <insert id="insertToken" parameterType="com.heitian.ssm.model.Token">
+        INSERT  INTO  t_token(tokenId,token)
+        VALUE (#{tokenId},#{token})
+    </insert>
+
+    <delete id="deleteToken">
+     DELETE FROM t_token
+     WHERE  tokenId=#{userId}
+    </delete>
+
+</mapper>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heitian.ssm.dao.UserDao">
+
+    <resultMap id="UserBaseMap" type="com.heitian.ssm.model.User">
+        <id column="userId" property="userId" jdbcType="BIGINT"/>
+        <result column="userName" property="userName" jdbcType="VARCHAR"/>
+        <result column="userAddress" property="userAddress" jdbcType="VARCHAR"/>
+        <result column="userPassword" property="userPassword" jdbcType="VARCHAR"/>
+        <result column="userCreateTime" property="userCreateTime"/>
+        <result column="userPhone" property="userPhone"/>
+        <result column="userQqId" property="userQqId"/>
+        <result column="userBirth" property="userBirth"/>
+        <result column="userWechatId" property="userWechatId"/>
+        <result column="userHead" property="userHead"/>
+
+        <association property="token" javaType="com.heitian.ssm.model.Token">
+            <id column="id" property="id" jdbcType="BIGINT"/>
+            <result column="token" property="token"/>
+        </association>
+
+    </resultMap>
+
+    <select id="selectUserByToken" resultMap="UserBaseMap">
+        SELECT * FROM t_user AS user INNER  JOIN  t_token AS  token ON user.id=token.id
+        WHERE token .token = #{token}
+    </select>
+
+    <select id="selectUserById" parameterType="java.lang.Long" resultMap="UserBaseMap">
+        SELECT *  FROM t_user AS user
+        WHERE USER .userId = #{userId}
+    </select>
+
+    <select id="selectUserByPhone" resultType="com.heitian.ssm.model.User">
+        SELECT * FROM t_user AS user
+        WHERE USER .userPhone = #{phone}
+    </select>
+
+
+    <insert id="insertuser" parameterType="com.heitian.ssm.model.User">
+       INSERT INTO  t_user(userName,userPassword,userCreateTime,userPhone)
+        VALUES (#{userName},#{userPassword},#{userCreateTime},#{userPhone})
+
+
+    </insert>
+
+    <update id="updatauser" parameterType="com.heitian.ssm.model.User">
+        UPDATE  t_user SET userName= #{userName},
+                           userAddress=#{userAddress},
+                           userBirth=#{userBirth}
+
+        WHERE userId=#{userId}
+    </update>
+
+
+    <update id="upDataUserHead" parameterType="com.heitian.ssm.model.User">
+        UPDATE  t_user SET userHead= #{userHead}
+        WHERE userId=#{userId}
+    </update>
+
+    <update id="upDataUserPassWord" parameterType="com.heitian.ssm.model.User">
+        UPDATE  t_user SET userPassword= #{userPassword}
+        WHERE userId=#{userId}
+    </update>
+
+
+    <select id="selectUserByPhoneOrEmail" resultMap="UserBaseMap">
+        SELECT * FROM t_user
+        WHERE user_email = #{emailOrPhone} OR user_phone = #{emailOrPhone}
+        AND user_state = #{state}
+    </select>
+
+    <select id="selectAllUser" resultMap="UserBaseMap">
+        SELECT * FROM t_user
+    </select>
+
+    <select id="userlogin" resultType="com.heitian.ssm.model.User">
+        SELECT * FROM  t_user AS  USER
+        WHERE  USER.userPhone=#{userPhone}
+        AND    USER.userPassword=#{userPassword}
+    </select>
+
+
+    <select id="selectUserByQqId" resultType="com.heitian.ssm.model.User">
+        SELECT * FROM  t_user AS  USER
+        WHERE  USER.userQqId=#{userQqId}
+    </select>
+
+</mapper>
